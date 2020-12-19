@@ -72,6 +72,8 @@
         ("setref" "(" expression "," expression ")")
         setref-exp)
 
+      ; New for arrays
+
       (expression
        ("newarray" "(" expression "," expression ")")
        new-array-exp)
@@ -83,6 +85,8 @@
       (expression
        ("read-array" "(" expression "," expression ")")
        read-array-exp)
+
+      ; New for stacks
 
       (expression
        ("newstack()") new-stack-exp)
@@ -106,13 +110,10 @@
       (expression
        ("empty-stack?(" expression ")")
        empty-stack-exp)
-;
-;      (expression
-;       ("print-stack(" expression ")")
-;       print-stack-exp)
 
-      
-      
+      (expression
+       ("print-stack(" expression ")")
+       print-stack-exp)
 
       ))
 

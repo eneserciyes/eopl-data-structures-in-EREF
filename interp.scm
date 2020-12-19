@@ -144,7 +144,7 @@
 
         (stack-size-exp (exp1)
            (let ((stack (expval->arr (value-of exp1 env))))
-             (num-val (stack-size stack 1))))
+             (stack-size stack)))
 
         (empty-stack-exp (exp1)
            (let ((stack (expval->arr (value-of exp1 env))))
@@ -168,6 +168,12 @@
                  (let ((counter (expval->num (read-array stack 0))))
                    (let ((top-val (read-array stack counter)))
                      top-val)))))
+
+        (print-stack-exp (exp1)
+           (let ((stack (expval->arr (value-of exp1 env))))
+             (if (empty-stack? stack)
+                 (display "Stack is empty!")
+                 (print-stack stack 1))))
                  
                 
              

@@ -102,16 +102,20 @@
       (deref (list-ref arr index))))
 
   (define stack-size
-    (lambda (arr n)
-      (cases expval (read-array arr n)
-        (bool-val (bool) 0)
-        (num-val (num) (+ 1 (stack-size arr (+ n 1))))
-        (else (expval-extractor-error 'stack-element 'something-else)))))
+    (lambda (arr)
+      (read-array arr 0)))
 
   (define empty-stack?
     (lambda (arr)
-      (= (stack-size arr 1) 0)))
+      (= (expval->num (stack-size arr)) 0)))
 
+  (define print-stack
+    (lambda (arr n)
+      (cases expval (read-array arr n)
+        (bool-val (bool) (display "\nTop of the stack"))
+        (num-val (num) (begin (display "\n") (display num) (print-stack arr (+ n 1))))
+        (else (display "ERROR: UNEXPECTED ELEMENT IN STACK"))
+        )))
 ;;;;;;;;;;;;;;;; procedures ;;;;;;;;;;;;;;;;
 
   (define-datatype proc proc?
