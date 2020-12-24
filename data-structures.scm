@@ -26,7 +26,22 @@
   (define-datatype stack stack?
     (stack-type (counter number?) (stack-array arr-val?)))
 
+  (define-datatype queue queue?
+    (queue-type (counter number?) (queue-array arr-val?)))
+
 ;;; extractors:
+(define queue->counter
+    (lambda (que)
+      (cases queue que
+        (queue-type (counter queue-array) counter)
+        (else (expval-extractor-error 'counter que)))))
+
+  (define queue->array
+    (lambda (que)
+      (cases queue que
+        (queue-type (counter queue-array) queue-array)
+        (else (expval-extractor-error 'queue-array que)))))
+ 
 
   (define stack->counter
     (lambda (stk)
@@ -38,7 +53,8 @@
     (lambda (stk)
       (cases stack stk
         (stack-type (counter stack-array) stack-array)
-        (else (expval-extractor-error 'stack-array stk)))))                
+        (else (expval-extractor-error 'stack-array stk)))))
+
 
   (define expval->num
     (lambda (v)
@@ -101,6 +117,7 @@
     (lambda (arr index)
       (deref (list-ref arr index))))
 
+
   (define stack-size
     (lambda (arr)
       (read-array arr 0)))
@@ -115,6 +132,22 @@
         (bool-val (bool) (display "\nTop of the stack"))
         (num-val (num) (begin (display "\n") (display num) (print-stack arr (+ n 1))))
         (else (display "ERROR: UNEXPECTED ELEMENT IN STACK"))
+        )))
+  
+   (define queue-size
+    (lambda (arr)
+     (num-val (- (expval->num (read-array arr 0)) (expval->num (read-array arr 1))))))
+
+  (define empty-queue?
+    (lambda (arr)
+      (= (expval->num (queue-size arr)) 0)))
+
+  (define print-queue
+    (lambda (arr n)
+      (cases expval (read-array arr n)
+        (bool-val (bool) (display "\nHead of the queue"))
+        (num-val (num) (begin (display "\n") (display num) (print-queue arr (+ n 1))))
+        (else (display "ERROR: UNEXPECTED ELEMENT IN QUEUE"))
         )))
 ;;;;;;;;;;;;;;;; procedures ;;;;;;;;;;;;;;;;
 
